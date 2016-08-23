@@ -1,0 +1,3 @@
+well...
+
+if you using `pygame.init()`, then you must create a window or there will be no sound.
