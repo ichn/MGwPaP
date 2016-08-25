@@ -112,55 +112,52 @@ def generateRevealedBoxesData(val):
 	return revealedBoxes
 
 def getRandomizedBoard():
- # Get a list of every possible shape in every possible color.
- icons = []
- for color in ALLCOLORS:
- for shape in ALLSHAPES:
- icons.append( (shape, color) )
- random.shuffle(icons) # randomize the order of the icons list
- numIconsUsed = int(BOARDWIDTH * BOARDHEIGHT / 2) # calculate how many
-icons are needed
- icons = icons[:numIconsUsed] * 2 # make two of each
- random.shuffle(icons)
- # Create the board data structure, with randomly placed icons.
- board = []
- for x in range(BOARDWIDTH):
- column = []
- for y in range(BOARDHEIGHT):
- column.append(icons[0])
- del icons[0] # remove the icons as we assign them
- board.append(column)
- return board
+	# Get a list of every possible shape in every possible color.
+	icons = []
+	for color in ALLCOLORS:
+		for shape in ALLSHAPES:
+			icons.append( (shape, color) )
+			random.shuffle(icons) # randomize the order of the icons list
+			numIconsUsed = int(BOARDWIDTH * BOARDHEIGHT / 2) # calculate how many icons are needed
+			icons = icons[:numIconsUsed] * 2 # make two of each
+	random.shuffle(icons)
+	# Create the board data structure, with randomly placed icons.
+	board = []
+	for x in range(BOARDWIDTH):
+		column = []
+	for y in range(BOARDHEIGHT):
+		column.append(icons[0])
+	del icons[0] # remove the icons as we assign them
+	board.append(column)
+	return board
 def splitIntoGroupsOf(groupSize, theList):
- # splits a list into a list of lists, where the inner lists have at
- # most groupSize number of items.
- result = []
- for i in range(0, len(theList), groupSize):
- result.append(theList[i:i + groupSize])
- return result
+	# splits a list into a list of lists, where the inner lists have at
+	# most groupSize number of items.
+	result = []
+	for i in range(0, len(theList), groupSize):
+		result.append(theList[i:i + groupSize])
+	return result
 def leftTopCoordsOfBox(boxx, boxy):
- # Convert board coordinates to pixel coordinates
- left = boxx * (BOXSIZE + GAPSIZE) + XMARGIN
- top = boxy * (BOXSIZE + GAPSIZE) + YMARGIN
- return (left, top)
+	# Convert board coordinates to pixel coordinates
+	left = boxx * (BOXSIZE + GAPSIZE) + XMARGIN
+	top = boxy * (BOXSIZE + GAPSIZE) + YMARGIN
+	return (left, top)
 def getBoxAtPixel(x, y):
- for boxx in range(BOARDWIDTH):
- for boxy in range(BOARDHEIGHT):
- left, top = leftTopCoordsOfBox(boxx, boxy)
- boxRect = pygame.Rect(left, top, BOXSIZE, BOXSIZE)
- if boxRect.collidepoint(x, y):
- return (boxx, boxy)
- return (None, None)
+	for boxx in range(BOARDWIDTH):
+		for boxy in range(BOARDHEIGHT):
+			left, top = leftTopCoordsOfBox(boxx, boxy)
+			boxRect = pygame.Rect(left, top, BOXSIZE, BOXSIZE)
+	if boxRect.collidepoint(x, y):
+		return (boxx, boxy)
+	return (None, None)
 def drawIcon(shape, color, boxx, boxy):
  quarter = int(BOXSIZE * 0.25) # syntactic sugar
  half =
  int(BOXSIZE * 0.5) # syntactic sugar
- left, top = leftTopCoordsOfBox(boxx, boxy) # get pixel coords from
-board coords
+ left, top = leftTopCoordsOfBox(boxx, boxy) # get pixel coords from board coords
  # Draw the shapes
  if shape == DONUT:
- pygame.draw.circle(DISPLAYSURF, color, (left + half, top + half),
-half - 5)
+ pygame.draw.circle(DISPLAYSURF, color, (left + half, top + half), half - 5)
  pygame.draw.circle(DISPLAYSURF, BGCOLOR, (left + half, top +
 half), quarter - 5)
  elif shape == SQUARE:
